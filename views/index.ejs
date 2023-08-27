@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Currency Converter </title>
+    <link href="/main.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+    <div class="main-container"> 
+        <div class="box"> 
+            <p class="title"> Currency Exchange </p>
+            <div class="dropdown"> 
+                <label for="currency">Select currency:</label> 
+                <select name="currency"> 
+                    <% for (var i = 0; i < currencies.length; i++) { %>
+                        <option value=`${currencies[i]}`> <%= currencies[i] %> </option> 
+                    <% } %>
+                </select>
+            </div>
+            <form action="/submit" method="POST">
+                <input type="submit" class="submit" name="submit" value="Convert">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
