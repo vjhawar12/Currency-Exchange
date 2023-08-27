@@ -10,31 +10,39 @@
 <body>
     <div class="main-container"> 
         <div class="box"> 
-            <p class="title"> Currency Exchange </p>
+            <div class="title"> 
+                <p> Amount </label>
+            </div>
             <form action="/submit" method="POST">
+                <input type="number" name="amount" class="Amount">
+
                 <div class="dropdown" name="CurrencyFrom"> 
-                    <label for="currency">Convert from:</label> 
+                    <p> From: </p> 
                     <select name="currency"> 
                         <% for (var i = 0; i < currencies.length; i++) { %>
                             <option name="currencyFrom" value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
                         <% } %>
                     </select>
                 </div>
-                <input type="number" name="amount">
+
                 <div class="dropdown" name="CurrencyTo"> 
-                    <label for="currency">Convert to:</label> 
+                    <p> To: </p> 
                     <select name="currency"> 
                         <% for (var i = 0; i < currencies.length; i++) { %>
                             <option name="currencyTo" value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
                         <% } %>
                     </select>
                 </div>
+
                 <% if (locals.convertedAmount) { %>
                     <p> <%= convertedAmount %>  </p>
                 <% } %>
-                <input type="submit" class="submit" name="Convert">
+                <div class="submit-container"> 
+                    <input type="submit" class="submit" name="Convert">
+                </div>
             </form>
         </div>
     </div>
+
 </body>
 </html>
