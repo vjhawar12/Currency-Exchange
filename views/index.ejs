@@ -36,39 +36,38 @@
             <form action="/" method="POST">
               <div class="form-group first">
                 <label for="amount"> Enter value </label>
-                <input type="number" name="value" class="form-control" id="amount">
+                <input type="number" name="value" class="form-control"> 
               </div>
 
               <div class="form-group last mb-4">
                 <label for="password"> Converted </label>
-                <input type="password" readonly="readonly" class="form-control" id="password">
+                <% if (locals.convertedValue) { %>
+                    <input type="number" value=<%= convertedValue %> readonly="readonly" class="form-control" id="password">
+                <% } else { %>
+                    <% console.log(locals) %>
+                    <input type="number" value="0" readonly="readonly" class="form-control" id="password">
+                <% } %>
               </div>
               
               <div class="dropdowns"> 
-                <div class="dropdown" id="from">
-                  <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    USD
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
+                <div class="dropdown">
+                <select class="btn btn-danger dropdown-toggle" name="from" id="dropdownMenuButton">
+                    <% for (var i = 0; i < currencies.length; i++) { %>
+                        <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                    <% } %>
+                </select>
                 </div>
                 <div class="middle"> To </div>
-                <div class="dropdown" id="to">
-                  <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    AED
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
+                <div class="dropdown">
+                    <select class="btn btn-danger dropdown-toggle" name="to" id="dropdownMenuButton">
+                        <% for (var i = 0; i < currencies.length; i++) { %>
+                            <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% } %>
+                    </select>
                 </div>
               </div>
 
-              <input type="submit" name="Convert" value="Convert" class="btn text-white btn-block btn-primary">
+              <button type="submit" name="Convert" value="Convert" class="btn text-white btn-block btn-primary"> Convert </button>
 
             </form>
             </div>

@@ -36,28 +36,28 @@ app.get("/", async (req, res) => {
 app.post("/", async (req, res) => {
     try {
         console.log(req.body); 
-        // var currencyFrom = req.body["currency"][0]; 
-        // var currencyTo = req.body["currency"][1]; 
-        // var amount = parseInt(req.body["amount"]);
+        var currencyFrom = req.body["from"]; 
+        var currencyTo = req.body["to"]; 
+        var amount = parseInt(req.body["value"]);
 
+        var response = await axios.get(call(currencyFrom)); 
+        var rates = response.data["conversion_rates"]; 
+        var currencies = Object.keys(rates).slice(0, 20); 
+        var values = Object.values(rates).slice(0, 20); 
 
-        // var response = await axios.get(call(currencyFrom)); 
-        // var rates = response.data["conversion_rates"]; 
-        // var currencies = Object.keys(rates).slice(0, 20); 
-        // var values = Object.values(rates).slice(0, 20); 
-
-        // console.log(currencies); 
-        // console.log(currencyTo); 
+        console.log(rates); 
         
-        // var indexOfCurrency = getIndex(currencies, currencyTo); 
-        // var convertedAmount = amount * parseInt(values[indexOfCurrency]); 
+        var indexOfCurrency = getIndex(currencies, currencyTo); 
 
-        // console.log(convertedAmount); 
+        console.log("indice: " + indexOfCurrency); 
+        var convertedAmount = amount * parseFloat(values[indexOfCurrency]); 
 
-        // res.render("index.ejs", { 
-        //     "currencies" : currencies, 
-        //     "convertedAmount" : convertedAmount, 
-        // }); 
+        console.log(convertedAmount); 
+
+        res.render("index.ejs", { 
+            "currencies" : currencies, 
+            "convertedAmount" : convertedAmount, 
+        }); 
 
     } catch (err) {
         console.log(err); 
