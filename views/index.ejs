@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dropdown.css">
 
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
     <title>Currency Exchange </title>
   </head>
   <body>
@@ -40,12 +42,11 @@
               </div>
 
               <div class="form-group last mb-4">
-                <label for="password"> Converted </label>
-                <% if (locals.convertedValue) { %>
-                    <input type="number" value=<%= convertedValue %> readonly="readonly" class="form-control" id="password">
+                <% if (locals.convertedAmount) { %>
+                    <input type="number" value=<%= convertedAmount %> readonly="readonly" class="form-control" id="password">
                 <% } else { %>
-                    <% console.log(locals) %>
-                    <input type="number" value="0" readonly="readonly" class="form-control" id="password">
+                    <label for="password"> Converted </label>
+                    <input type="number" readonly="readonly" class="form-control" id="password">
                 <% } %>
               </div>
               
@@ -53,16 +54,24 @@
                 <div class="dropdown">
                 <select class="btn btn-danger dropdown-toggle" name="from" id="dropdownMenuButton">
                     <% for (var i = 0; i < currencies.length; i++) { %>
-                        <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% if (i == 0) { %>
+                          <option selected value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% } else { %>
+                          <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% }  %>
                     <% } %>
                 </select>
                 </div>
                 <div class="middle"> To </div>
                 <div class="dropdown">
                     <select class="btn btn-danger dropdown-toggle" name="to" id="dropdownMenuButton">
-                        <% for (var i = 0; i < currencies.length; i++) { %>
-                            <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
-                        <% } %>
+                      <% for (var i = 0; i < currencies.length; i++) { %>
+                        <% if (i == 1) { %>
+                          <option selected value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% } else { %>
+                          <option value="<%= currencies[i] %>"> <%= currencies[i] %> </option> 
+                        <% }  %>
+                    <% } %>
                     </select>
                 </div>
               </div>
