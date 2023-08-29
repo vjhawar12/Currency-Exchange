@@ -3,54 +3,46 @@ import bodyParser from "body-parser";
 import axios from "axios"; 
 
 const port = 3000; 
-var app = express();
 const api_key = "1d8a22844f9902c24d831ec2";  
+
+var app = express();
 
 app.use(express.static("public")); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-function call(from) {
-    return `https://v6.exchangerate-api.com/v6/${api_key}/latest/${from}`
-}
+var currencies = [
+    "USD", "EUR", "JPY", "GPB", "CNY", 
+    "AUD", "CAD", "CHF", "HKD", "SGD", 
+    "MYR", "THB", "TWD", "PLN", "DKK",
+    "ZAR", "BRL", "RUB", "INR", "KRW"
+]; 
 
-function getIndex(array, value) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] == value) {
-            return i;
-        }
-    }
-    return -1; 
-}
 
 app.get("/", async (req, res) => {
     try {
-        var response = await axios.get(call("USD")); 
-        var rates = response.data["conversion_rates"]; 
-        var currencies = Object.keys(rates).slice(0, 20); 
-        res.render("index.ejs", { "currencies" : currencies }); 
+        res.render("index.ejs", { 
+            "currencies" : currencies, 
+        }); 
     } catch (err) {
         console.log(err); 
     }
 }); 
 
+function round(value, decimalPlaces) {
+    return Math.round(value * (10 ** decimalPlaces)) / (10 ** decimalPlaces); 
+}
+
 app.post("/", async (req, res) => {
     try {
-        console.log(req.body); 
         var currencyFrom = req.body["from"]; 
         var currencyTo = req.body["to"]; 
         var amount = parseInt(req.body["value"]);
 
-        var response = await axios.get(call(currencyFrom)); 
-        var rates = response.data["conversion_rates"]; 
-        var currencies = Object.keys(rates).slice(0, 20); 
-        var values = Object.values(rates).slice(0, 20); 
+        var response = await axios.get(`https://v6.exchangerate-api.com/v6/${api_key}/latest/${currencyFrom}`); 
+        var rates = response.data["conversion_rates"];  
 
-        console.log(rates); 
-        
-        var indexOfCurrency = getIndex(currencies, currencyTo); 
-
-        console.log("indice: " + indexOfCurrency); 
-        var convertedAmount = amount * parseFloat(values[indexOfCurrency]); 
+        var value = rates[currencyTo]; 
+        var convertedAmount = round(amount * value, 3); 
 
         console.log(convertedAmount); 
 
